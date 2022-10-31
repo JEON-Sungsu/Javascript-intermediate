@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 400;
+            font-size: 10px;
+            overflow-x: hidden;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            padding: 2rem;
+        }
+
+        h1 {
+            font-weight: 700;
+            font-size: 30px;
+            width: 100%;
+            text-align: center;
+        }
+
+        p {
+            font-size: 1.3rem;
+            color: #888;
+            padding: 0;
+            margin: 0.5rem 0 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .underline {
+            text-decoration: underline;
+        }
+
+        table td.alignc {
+            text-align: center;
+        }
+
+        table thead th {
+            background: #000;
+            padding: 0.5rem;
+            color: #fff;
+            font-weight: 400;
+        }
+
+        table tbody th,
+        table tbody td {
+            border: 0.1rem solid rgba(0, 0, 0, 0.3);
+            padding: 0.5rem 1rem;
+        }
+
+        table th,
+        table td {
+            min-height: 3rem;
+            font-size: 1.5rem;
+            color: #000;
+        }
+
+        table td p {
+            font-size: 1.5rem;
+            color: #000;
+        }
+
+        table td:last-child {
+            font-size: 1.1rem;
+        }
+
+        table td a {
+            color: #000;
+        }
+
+        table td a:visited {
+            opacity: 0.5;
+        }
+
+        table td a:hover {
+            color: #888;
+            font-weight: bold;
+        }
+
+        table td a:active {
+            opacity: 0.5;
+        }
+
+        table tr.cancel td,
+        table tr.cancel th {
+            text-decoration: line-through;
+            opacity: 0.2;
+        }
+
+        .wrap {
+            position: relative;
+            padding: 50px;
+        }
+
+        .wrap thead {
+            position: sticky;
+        }
+
+        span {
+            font-weight: normal;
+        }
+
+        .inprogress {
+            color: #ff2e50;
+            display: inline-block;
+            height: 2rem;
+            width: 2rem;
+            border-radius: 0.3rem;
+            background-color: #93c5ff;
+        }
+
+        .finished {
+            color: blue;
+            display: inline-block;
+            height: 2rem;
+            width: 2rem;
+            border-radius: 0.3rem;
+            background-color: blue;
+        }
+
+        .ing {
+            display: inline-block;
+            height: 2rem;
+            width: 2rem;
+            border-radius: 0.3rem;
+            background-color: #a5ff68;
+        }
+
+        .new {
+            display: inline-block;
+            height: 2rem;
+            width: 2rem;
+            border-radius: 0.3rem;
+            background-color: red;
+        }
+
+        a.pp {
+            color: #ec8eff;
+            background-color: #fff !important;
+        }
+
+        .gg {
+            background-color: #eee;
+        }
+
+        .gg td {
+            color: #888;
+            text-decoration: line-through;
+        }
+
+        .tag-wrap {
+            position: absolute;
+            right: 50px;
+            top: 80px;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .tag-wrap dl {
+            display: inline-block;
+        }
+
+        .tag-wrap dt,
+        .tag-wrap dd {
+            display: inline-block;
+        }
+
+        .tag-wrap dt {
+            padding: 0 0.5rem;
+            margin: 0 0 0 2rem;
+        }
+
+        .tag-wrap dd {
+            display: inline-block;
+            height: 2rem;
+            width: 2rem;
+            border-radius: 0.3rem;
+            vertical-align: middle;
+            margin: 0;
+        }
+
+        ul.history {
+            padding: 0.3rem 0;
+            margin: 0;
+        }
+
+        ul.history li {
+            list-style: disc;
+            margin: 0 0 0.6rem 0;
+            padding: 0;
+            margin-left: 1rem;
+            line-height: 1.1;
+        }
+
+        ul.history li:last-child {
+            margin-bottom: 0;
+        }
+
+        .notice {
+            color: #ff2e50;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="tag-wrap">
+            <dl>
+                <dt>진행중</dt>
+                <dd class="ing"></dd>
+                <dt>업데이트</dt>
+                <dd class="new"></dd>
+                <dt>완료</dt>
+                <dd class="finished"></dd>
+            </dl>
+        </div>
+        <h1>자바스크립트 심화과정 수업 결과물</h1>
+        <p>마지막 수정날짜 :</p>
+        <table>
+            <colgroup>
+                <col width="1%" />
+                <col width="10%" />
+                <col width="5%" />
+                <col width="30%" />
+                <col width="6%" />
+                <col width="6%" />
+                <col width="6%" />
+                <col width="8%" />
+                <col />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th scope="row">No</th>
+                    <th scope="row">페이지명</th>
+                    <th scope="row">화면 ID</th>
+                    <th scope="row">파일명</th>
+                    <th scope="row">상태</th>
+                    <th scope="row">비고</th>
+                    <th scope="row">수정이력</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="col">1</th>
+                    <td class="alignc">스크립트</td>
+                    <td class="alignc"></td>
+                    <td>
+                        <a href="javascript:void(0);" onclick="window.open('./pages/')">스크립트 심화</a><br />
+                    </td>
+                    <td class="alignc"><span class="ing"></span></td>
+                    <td class="alignc"></td>
+                    <td>
+                        <ul class="history">
+                            <li></li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
