@@ -424,3 +424,17 @@ function 함수2(...파라미터들) {
 
 함수2(34,2,542,524,5)
 ```
+
+## Object, Array 검색하기
+- 객체에서 특정 key값이 존재하는지
+```
+Object.keys(result).includes('찾고자 하는 키') //true or false
+```
+- 객체 키값에 변수를 넣기 위해서는 object[변수] = 블라블라 와 같이 반드시 대괄호 안에 해야된다.
+
+- 배열에서 특정 '문자'열이 존재하는지
+```
+const newArr = arr.indexOf('문자열');
+//true => 인덱스번호
+//false => -1 
+```
