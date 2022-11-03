@@ -439,4 +439,103 @@ const newArr = arr.indexOf('문자열');
 //false => -1 
 ```
 
-깃허브 주소변경 테스트
+<br><br>
+
+## 데이터 타입
+- Primitive data type 
+    - 그냥 문자와 숫자와 같은 데이터들을 의미한다.
+    - 특징
+        - 변수에 값이 그대로 저장됨
+        - Arr, Obj 등은 변수에 값이 그냥 저장되는게 아니고, reference가 저장이 된다. 
+
+<br><br>
+
+- Reference data type
+    - 배열, 객체와 같은 데이터들을 의미한다. 
+    ```
+    const arr = [1,2,3]
+    console.log(arr) //arr 이라는 변수가 저기에 있다~
+    ```
+    - 실제로 저장된 데이터를 출력하는게 아니고, 메모리에 저장되어있는 데이터 위치를 보여주는거지, 실제 데이터를 보여주는게 아니다. 우리 눈에는 실제 데이터가 보이는것처럼 나올뿐이다.
+
+<br><br>
+
+- Primitive 와 Reference 타입 데이터의 차이는 어떻게 복사하느냐의 차이다. 아래의 상황처럼, 배열과 객체를 저런 방식으로 사용하게 되면, 하나를 수정하면 복사된 다른것도 값이 다 바뀌기 때문에 배열,객체는 아래의 방식으로 복사를 하면 안된다.
+```
+var 이름1 = {name : "김"};
+var 이름2 = 이름1;
+이름1.name = '박';
+
+console.log(이름1.name) //"박"
+console.log(이름2.name) //"박"
+
+var 이름1 = "김"; 
+var 이름2 = 이름1;
+이름1.name = '박';
+
+console.log(이름1.name) //"박"
+console.log(이름2.name) //"김"
+
+var 이름1 = {name : "김"};
+var 이름2 = {name : "김"};
+
+console.log(이름1 == 이름2) //false 
+왜냐하면 레퍼런스 데이터는 데이터가 저장된 위치를 나타낸다고 했고, 위의 두 변수는 저장된 위치가 다르기때문에 false 가 뜬다. 
+```
+
+- 함수를 통해서 객체를 재할당해주려고 하면 실패함 
+```
+var 이름1 = {name : "김"};
+
+function 변경(obj){
+    obj = {name : "park"}
+}
+
+변경(이름1); // {name : "김"};
+```
+- 왜냐하면 파라미터는 변수 생성&할당 과 동일한 역할을 하기 때문이다. 
+- 실제로는 이름1의 객체를 재할당한게 아니고, var obj = {name:"park"} 이라는 새로운 객체를 하나 더 생성한것과 동일한 현상이 생긴다. 
+
+
+## Constructor (오브젝트 생성 기계)
+- 비슷한 용도의 Object를 막 찍어내고 싶을 때 사용하는 문법이다. 
+- 펑션 키워드를 사용해서 만든다. 단 함수 이름의 첫글자는 대문자로 만들어 준다. 
+- Constructor 에서의 this 는 새로 생성되는 object 자체를 의미한다. 
+
+```
+function Student(){
+    this.name = "kim"; //새로 생성되는 오브젝트에 name을 넣어줘
+    this.age = 15; //새로 생성되는 오브젝트에 age를 넣어줘
+    this.sayHi : function(){
+        console.log('안녕하세요' + this.name + '입니다.')
+    }
+}
+
+new Student(); //{} object 만 뽑힘.
+
+const Student1 = new Student(); //{name: "kim", age: 15,} 변수에 담아서 이렇게 호출해야된다.
+const Student2 = new Student();
+
+Student2.sayHi();
+
+반복문을 통해서 여러개 생성도 가능함.
+```
+- 컨스트럭터를 여러개 사용하면, 모두 값들이 동일한데 이걸 사용하는데마다 다르게 변경하고싶으면, 컨스트럭터 생성시 함수의 파라미터를 넣어서 원하는 데이터 값을 넣도록 해준다.
+
+```
+function Student(name , age){
+    this.name = name;
+    this.age = 15;
+    this.sayHi : function(){
+        console.log('안녕하세요' + this.name + '입니다.')
+    }
+}
+
+const Student1 = new Student("kim", 16);
+const Student2 = new Student("park", 13);
+
+Student2.sayHi();
+```
+
+- Constructor 에서 사용되는 this 는 instance (인스턴스) 라고 칭한다.
+- Constructor 는 생성자 라고 칭한다.

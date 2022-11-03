@@ -93,3 +93,31 @@ function 글자수체크2(data){
 }
 
 글자수체크2('sglkasp')
+
+var 이름1 = {name : "김"};
+
+function Student(name,age){
+    this.name = name; //새로 생성되는 오브젝트에 name을 넣어줘
+    this.age = age; //새로 생성되는 오브젝트에 age를 넣어줘
+    this.sayHi = function(){
+        console.log('안녕하세요 ' + this.name + ' 입니다.')
+    }
+}
+
+const Student1 = new Student("kim",17); //{name: "kim", age: 15,} 변수에 담아서 이렇게 호출해야된다.
+const Student2 = new Student("park", 15);
+
+
+function Products(product,price){
+    this.name = product;
+    this.price = price;
+    this.vat = function(){
+        return this.price * 1.1
+    }
+}
+
+const sale = new Products('shirts',50000);
+const sale2 = new Products('pants',35000);
+
+console.log(sale.vat());
+console.log(sale2);
