@@ -539,3 +539,181 @@ Student2.sayHi();
 
 - Constructor 에서 사용되는 this 는 instance (인스턴스) 라고 칭한다.
 - Constructor 는 생성자 라고 칭한다.
+- 저렇게 Constructor 를 정의해둔 함수를 부모라고 하고, 이를 호출해서 새로 담는 변수를 자식관계라 부르며 호출하는 행위(새로운 객체를 만드는 행위) 를 상속이라고 표현한다. 
+
+
+<br><br>
+
+## Prototype (유전자..?)
+- Constructor에서 상속이 일어날때 사용하는 문법이다.
+- 이는 자바스크립트에만 있는 개념이다. 
+- 상속이라는 행위를 구현하기위해 나타나게 된 문법이다. 
+- 컨스트럭터를 만들면, prototype 이라는 공간이 자동으로 생긴다.
+- prototype에 값을 추가하면, 모든 자식들이 모두 값을 물려받을 수 있다.
+
+```
+function Student(name , age){
+    this.name = name;
+    this.age = 15;
+    this.sayHi : function(){
+        console.log('안녕하세요' + this.name + '입니다.')
+    }
+}
+
+const Student1 = new Student("kim", 16);
+const Student2 = new Student("park", 13);
+
+Student.prototype 을 콘솔에 입력해보면 나타난다. 
+
+Student.prototype.gender = "남";
+이렇게 추가해주면 Student1, Student2 모두에 해당 값이 추가된다. 
+```
+- 만약 Student1 을 검색한다고 치면, 처음에는 Student1의 부모인 Student를 검색해보고, 그다음에 Student의 prototype 을 검색을 하게 되어있다. 
+- Student 의 prototype 을 검색하고 거기서도 검색결과가 없으면, Student 의 부모의 prototype을 검색하게 되어있다. 즉 부모의 유전자 검색 > 없다 > 조부모의 유전자 검색 > 없다 > 시조의 유전자 검색
+- 그래서 window 라는 객체에 저장되어있는 내장 함수들을 사용 할 수 있다. 
+- 여튼 이것은 그냥 원리일 뿐임. 
+<br><br>
+
+- 실제로 배열이나 객체가 만들어지는 과정을 보면
+```
+const arr = [1,2,3] //내가 직접 만든것
+const arr = new Array(1,2,3) //컴퓨터,브라우저가 받아들이는것 
+
+```
+- 이처럼 우리는 별도로 Constructor를 만들지 않았지만, 이미 내장되어있는 Constructor 를 통해 객체든 배열이든이 만들어진다는 것이다. 
+- 그래서 구글에 예를들어 내장함수 sort() 를 검색해보면, MDN 사이트에서 제목이 Array.prototype.sort() 이런식으로 나오는데, 이건 내장되어있는, array 를 만들어주는 constructor에 sort() 라는 함수가 있어서, arr 의 prototype 에 자동으로 상속받기 때문에 이렇게 나오는것이다. 
+
+<br><br>
+
+- Prototype 은 부모가되는 함수에만 있다. 자식들은 가지고 있지 않음.
+- 자식으로 부모의 프로토타입을 찾아보고싶으면
+```
+자식.__proto__ 를 출력해보면 확인 할 수 있다. 
+```
+- 이 언더바 proto 언더바 를 통해서 자식을 선택자로 부모에게 강제로 prototype을 지정해줄 수도 있음. 
+- 또는 자식을 기준으로 부모의 프로토타입에 값을 집어넣을 수도 있음
+```
+const 부모 = {name : "kim"}
+const 자식 = {}
+
+자식.__proto__ = 부모; 
+
+부모 객체를 자식의 프로토타입으로 삼아버림
+
+function 부모(){
+    this.name = "김씨"
+}
+
+const 자식() = new 부모();
+
+자식.__proto__.name = "이씨";
+
+해당 방법은 부모의 프로토타입에 name = 이씨 라는 값을 넣어버림
+```
+<br><br>
+
+- 부모의 프로토타입을 알고싶으면 ```자식.__proto__```  검색하면 된다.
+
+
+**_그래서 이걸 어디다 쓸 수 있느냐_** ... 모르겠네
+- 특정 Constructor 의 자식들에게 모두 동일한 무언가를 사용할 수 있게 해주는것..? 내가 만든것 말고 이미 존재하는 배열이나 객체같은것들. 
+
+<br><br>
+
+## ES5 문법으로 상속기능 구현하기 
+
+- Object.create(); //객체를 만드는 예전 문법
+
+    1. 상속을 하고싶은 부모객체를 만든다. 
+    2. 자식객체의 Prototype 을 만들고싶다. 그것도 따로 만들어둔 부모객체로. 
+
+
+    ```
+    const 부모 = {name : "JEON", age : 50};
+    const 자식 = Object.create(부모);
+
+    자식.name // "JEON"
+
+    자식의 prototype 의 값을 바꾸고 싶다.
+
+    자식.name = "Kim";
+    자식.name // "Kim";
+    부모.name // "JEON";
+
+    이렇게 하더라도 부모 객체의 값은 바뀌지 않는다. 
+    ```
+
+<br><br>
+
+## ES6 문법으로 상속기능 만들기
+
+- Class 키워드 사용 
+- Constructor 만드는 신문법이다. 
+- 함수 추가방법은 기존것을 써도 되고 다른방법도 있음
+- constructor 내부에 생성하는 함수는 그대로 상속받고 밖에다가 만드는 함수는 prototype 에 들어가는 함수가 되어버린다.
+```
+class 부모 {
+    constructor(파라미터 넣는 자리){
+        this.name = "Kim";
+        this.fc = function(){
+            console.log('Hi')
+        }
+
+        sayHi() {
+            console.log('hellow')
+        }
+    }
+}
+
+const 자식 = new 부모();
+```
+- prototype 확인하는법
+```
+1. 부모.prototype;
+2. 자식.__proto__;
+3. Object.getPrototypeOf(자식);
+```
+
+## 객체지향문법은 왜쓰냐
+- Object 를 쉽고 간단하게 찍어내고싶을때 쓰는 문법.
+- 
+
+<br><br>
+
+## extends, super
+- 부모 class와 매우 유사한 class를 만들고 싶을때 사용하는 문법들
+- 그냥 하나더 만들면 되지 않냐? 그런데 비슷한 내용들이 많고, 엄청~~ 긴것들을 또 작성해야할때 귀찮으니깐.
+
+```
+class 할아버지 {
+    constructor(name){
+        this.lastName = "Kim";
+        this.firstName = name;
+    }
+
+    sayHi(){
+        console.log('안녕');
+    }
+}
+
+class 아버지 extends 할아버지 {
+    constructor(){
+        this.나이 = 50;
+    }
+}
+
+이렇게 하면 오류남
+```
+
+- extends 로 만든 새로운 class에서는 this를 함부로 쓰지 못한다.
+- 그래서 super(); 라는 내장함수를 컨스트럭터 제일 상단에 넣어주어야 한다.
+- 또한 부모 class 의 파라미터를 super 의 인자로 넣어주어야 한다. 
+```
+
+class 아버지 extends 할아버지 {
+    constructor(name){
+        super(name);
+        this.나이 = 50;
+    }
+}
+```
