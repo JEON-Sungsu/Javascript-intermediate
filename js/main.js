@@ -301,3 +301,52 @@ let 신체정보 = {
     },
     size: [ 상의, 하의 ]
   } = 신체정보;
+
+  //Promise 연습문제
+  const _img = document.querySelector('#test');
+  const testPr = new Promise(function(resolve,reject){
+    _img.addEventListener('load',function(){
+        resolve();
+    })
+    _img.addEventListener('error',function(){
+        reject()
+    })
+  })
+
+
+  testPr.then(function(){
+    console.log("성공");
+  }).catch(function(){
+    console.log("실패");
+  })
+
+
+//첫번쨰 ajax 호출시 성공하면 두번쨰 ajax 호출해서 출력하기
+const testPr2 = new Promise(function(ok,fail){
+    $.ajax({
+        url:"https://codingapple1.github.io/hello.txt",
+        method: 'GET',
+        success: function(data){
+            ok(data);
+        },
+        error:function(data){
+            fail();
+        }
+    })
+})
+
+testPr2.then(function(data){
+    console.log(data)
+    const testPr3 = new Promise(function(ok,fail){
+        $.get('https://codingapple1.github.io/hello2.txt').done(function(data){
+            ok(data);
+        })
+    })
+    //리턴을 써줘야한다.
+    return testPr3;
+}).then(function(data){
+    console.log(data)
+})
+.catch(function(){
+    console.log("실패했습니다.")
+})
