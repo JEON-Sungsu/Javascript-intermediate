@@ -673,6 +673,28 @@ const 자식 = new 부모();
 2. 자식.__proto__;
 3. Object.getPrototypeOf(자식);
 ```
+<br><br>
+
+**_Class를 호출하는것만으로 함수 실행하기_**
+
+1. Class의 Constructor 밖에 바로 호출하고자하는 함수를 만든다.
+2. Constructor 내부에 this.만든함수(); 를 넣어준다.
+3. 해당 함수를 사용하고싶은 페이지에서 그냥 new 키워드를 사용해 클래스 호출만 해준다. 
+```
+class 부모 {
+    constructor(파라미터 넣는 자리){
+        this.name = "Kim";
+        this.sayHi();
+    }
+
+    sayHi() {
+            console.log('hellow')
+    }
+}
+
+new 부모();
+
+```
 
 ## 객체지향문법은 왜쓰냐
 - Object 를 쉽고 간단하게 찍어내고싶을때 쓰는 문법.
@@ -717,3 +739,94 @@ class 아버지 extends 할아버지 {
     }
 }
 ```
+
+<br><br>
+
+## Getter, Setter 
+- 함수를 만들어서 object 데이터를 다루는 이유
+    1. object의 데이터가 무조건 키:value 딱딱 하나씩 맞게 있는게 아니다, 키 : [배열 {객체},{객체},{객체}] 이렇게 복잡한 데이터 구조가 있는 경우도 많다. 그래서 이러한 데이터를 다루기 위해 객체 내에 함수를 만들고, 꺼내서 사용하는 것이다.
+    2. object 자료 수정시 실수를 줄일 수 있음
+        - obj.age = 20 이런식으로 데이터를 변경하는거는 조금 초보적인것이라고 한다. 요즘 트렌드에도 맞지않고.
+        - 굳이 이렇게 하는 이유는, 데이터를 실수로 입력했을때 차단을 시킬 수가 있음. if 문이나 뭐 기타 등등 함수를 통해서
+    ```
+    const obj = {
+        name = "jeon",
+        age = 34,
+
+        nextAge(){
+            return this.age + 1;
+        }
+
+        //데이터를 수정해주는 함수
+        changeAge(a){
+            if (a !== Number) {
+                return //만약 파라미터가 숫자로 들어오지 않으면 함수 실행하지 말기
+            }
+            this.age = parseInt(a); //혹시나 문자를 넣더라도 숫자로 변경해줌
+        }
+    }
+
+    obj.changeAge(24);
+    console.log(obj.age) //24;
+    ```
+<br><br>
+
+- 위와 같이 객체 내에 함수들에는 get 또는 set 키워드를 붙여서 만들 수 있는데, 함수를 사용할때 복잡한 소괄호와 파라미터 입력하는것을, 조금더 쉽고 직관적이게 사용하기 위해서 사용되어지는 키워드이다.
+- get 은 데이터를 꺼내서 쓰는 함수, set 은 데이터를 변경하는 함수에 붙인다.
+- 마치 객체내부의 함수들을, 데이터를 호출하고, 데이터 값을 변경하는것 처럼 사용할 수 있다. 
+
+    ```
+    const obj = {
+        name = "jeon",
+        age = 34,
+
+        get nextAge(){
+            return this.age + 1;
+        }
+        set changeAge(a){
+            this.age = parseInt(a); //혹시나 문자를 넣더라도 숫자로 변경해줌
+        }
+    }
+
+    obj.changeAge = '20';
+    
+    기존에 썼던 obj.changeAge(20) 대신에 사용 가능
+    ```
+
+- Getter 란?
+    - 오브젝트의 함수를 꺼내서 사용할떄 쓰는 키워드이다.
+    - get 함수를 사용할떄는 만드시 return 값이 있어야한다.
+    - get 함수는 파라미터를 입력하면 안된다. 
+<br><br>
+
+- Setter 란? 
+    - 오브젝트의 함수를 변경할때 사용한다.
+    - 반드시 파라미터가 1개 필요하다. 2개이상 안됨. 
+<br><br>
+
+- Class 에서도 get/set 함수를 사용할 수 있다. 
+```
+Class 사람 {
+    constructor(){
+        this.name = "Park",
+        this.age = 20;
+    }
+
+    get nextAge(){
+        return this.age + 1;
+    }
+
+    set setAge(나이){
+        this.age = 나이;
+    }
+}
+
+let 사람1 = new 사람();
+
+사람1.nextAge;
+사람1.setAge = "34";
+```
+
+**_그래서 게터 세터는 왜쓰느냐_**
+- 데이터 출력/수정 함수를 만들어서 쓰는이유는 데이터의 무결성을 위해서이다. (실수를 줄이기 위해서)
+- 관리의 용이성 떄문이다. 굳이 안써도 되긴하다.

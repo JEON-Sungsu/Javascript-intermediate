@@ -183,6 +183,7 @@ class 할아버지 {
     constructor(name){
         this.lastName = "Kim";
         this.firstName = name;
+        this.sayHi();
     }
     sayHi(){
         console.log('안녕');
@@ -196,5 +197,4 @@ class 아버지 extends 할아버지 {
     }
 }
 
-const 아버지2 = new 아버지("만두");
-아버지2.sayHi();
+new 할아버지();
