@@ -851,3 +851,161 @@ let 사람1 = new 사람();
 - 데이터 출력/수정 함수를 만들어서 쓰는이유는 데이터의 무결성을 위해서이다. (실수를 줄이기 위해서)
 - 관리의 용이성 떄문이다. 굳이 안써도 되긴하다.
 - 리액트/뷰/앵귤러도 이런식으로 모든 데이터를 다룬다. 
+
+<br><br>
+
+## Destructuring
+- 디스트럭츄어링 문법 (패턴문법?)
+- array,object 데이터를 변수에 담으려면?
+```
+let arr = [2,3,4];
+let obj = {
+    name : "kim",
+    age : 30,
+}
+
+방법1. 변수명을 맞추고, 대입 값도 맞추기
+const [a,b,c] = [2,3,4];
+const {name,age} = {name : "kim", age: 30}; //변수명과 오브젝트의 키값을 동일하게 맞춰줘야함.
+const {name : 이름 ,age} = {name : "kim", age: 30}; //변수명을 바꾸고싶으면, 이방법으로 변경가능.
+
+방법2.
+const [a,b,c] = arr;
+const name = obj.name;
+
+방법3.
+const const [a,b,c = 10] = [1,2]; //디폴트 값 10으로 입력. 혹시나 데이터입력을 실수하면 대체할 값 넣기.
+const {name : 이름 = "성수",age = 30} = {name : "kim"}; //디폴트값 입력 가능 
+```
+- 반대로 변수들을 오브젝트나 배열에 집어놓고싶다면
+```
+const name = "kim";
+const age = 550;
+
+방법1. 하드코딩으로 집어넣기 (엣날방식)
+const obj = {
+    name : name,
+    age : age,
+}
+
+방법2. 오브젝트의 키값과, 변수명을 동일하게 하고자 하면 그냥 변수명만 집어넣어주면 된다. 자주쓰이는 문법임.
+const obj = {
+    name,
+    age
+}
+```
+
+- 함수 파라미터에 오브젝트나 변수를 집어넣고싶을 때
+```
+let obj = {
+    name : "kim",
+    age : 30,
+}
+
+function 함수(파라미터){
+    console.log(파라미터)
+}
+
+방법1. obj 또는 obj 키값을 호출한다.
+함수(obj);
+
+방법2. 파라미터를 중괄호로 감싸서 키값을 그대로 넣어주고 호출할때도 파라미터를 객체처럼 써주어야 한다. 배열도 마찬가지임.
+function 함수({name, age}){
+    console.log(name);
+    console.log(age);
+}
+
+함수({name : "kim", age: 30})
+
+function 함수([name, age]){
+    console.log(name);
+    console.log(age);
+}
+
+함수([1,2]) // 1,2
+```
+
+- 만약 복잡한 구조의 데이터들을 변수에 담으려면, 변수의 구조를 데이터와 동일하게 맞춰놓고 데이터를 넣어주면 된다...
+```
+let 신체정보 = {
+    body: {
+      height: 190,
+      weight: 70
+    },
+    size: ["상의 Large", "바지 30인치"],
+  };
+
+  let {
+    body: {
+      height, 
+      weight
+    },
+    size: [ 상의, 하의 ]
+  } = 신체정보;
+```
+
+<br><br>
+
+## import export 모듈화 개발 방법
+- 파일 첨부방식이다. 
+```
+import a from '/가져오고싶은 파일명.js' //import 뒤에 a 는 그냥 내가 가져온 변수,함수등의 데이터를 a 라고 부르겠다. 변수명,파라미터명 만들듯이
+
+```
+- import 는 내가 가져오는 파일의 모든 내용을 다 가져오겠다가 아님. 특정 변수나, 함수등을 가져오겠다임. 
+- 대신에 가져올 파일에 선언,정의 되어있는 변수나 함수에 export 를 넣어줘야됨
+- export default 는 파일에서 단 한번만 사용할 수 있다.
+```
+//가지고 올 파일 
+
+const a = 10;
+export default a;
+```
+- 여러개의 변수나 함수를 가져오고 싶을떄는 default 키워드는 빼고 중괄호를 넣어준다. 방법은 여러개 있음.
+```
+cosnt a = 10;
+const b = 20;
+
+방법1
+export {a};
+export {b};
+
+방법2
+export {a,b}
+
+export const a = 10;
+export const b = 20;
+
+```
+
+- 이렇게 여러개 불러올떄는 import 하는 곳에서도 이름을 바꿔줘야한다.
+- 그리고 defalut 를 임포트 하는것과 다르기, 이름을 가져올 변수,데이터 등의 이름과 동일하게 해줘야 한다. 
+```
+import {a,b} from 가져올파일경로
+```
+
+- export 와 export default 는 동시에 사용 가능하다. 
+```
+const a = 120;
+const b = 2;
+const c = 55;
+
+export {a,b};
+export default c;
+
+//import
+import 작명,{a,b} from 경로;
+```
+
+- export 로 가져오는 데이터는 이름을 동일하게 해줘야 한다고 했는데, as 키워드를 통해서 변경할 수 도 있따.
+```
+import {a as 짓고싶은이름} from '경로'
+
+```
+
+- export 된 모든 변수를 다 가져오고싶으면 * 키워드를 쓰면 된다.
+```
+import * as 짓고싶은이름 from 'src'
+
+console.log(짓고싶은이름.a);
+```

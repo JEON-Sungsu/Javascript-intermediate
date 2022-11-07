@@ -268,3 +268,36 @@ const data = {
 
 data.setter(1,2,3,4);
 data.getter(this.odd, this.even);
+
+// 지출계산기 
+function 돈계산(총수입,...고지비){
+    let 잔액 = 0;
+    let 급여 = 총수입;
+    const 고정지출비 = 고지비;
+    
+    고정지출비.forEach(function(item){
+        급여 -= item;
+        잔액 = 급여;
+    })
+    console.log(잔액);
+}
+
+돈계산(1940000,550000,100000,800000,100000,14400);
+
+
+//Distructuring 연습문제 
+let 신체정보 = {
+    body: {
+      height: 190,
+      weight: 70
+    },
+    size: ["상의 Large", "바지 30인치"],
+  };
+
+  let {
+    body: {
+      height, 
+      weight
+    },
+    size: [ 상의, 하의 ]
+  } = 신체정보;
