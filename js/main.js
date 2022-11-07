@@ -350,3 +350,36 @@ testPr2.then(function(data){
 .catch(function(){
     console.log("실패했습니다.")
 })
+
+// async, await 연습 
+let clicked = 0;
+$('#test02').on('click',function(){
+    if (clicked == 0) {
+        clicked++
+    } else {
+        clicked = 0;
+    }
+    성공판정연습();
+})
+
+async function 성공판정연습(){
+    const 프로미스요 = new Promise(function(resolve,reject){
+        if(clicked == 1){
+            resolve();
+        } else {
+            reject();
+        }
+    })
+
+    try {
+        await 프로미스요;
+        console.log("성공했습니다");
+    } catch {
+        console.log('실패했습니다');
+    }
+}
+
+const testObj = {
+    대충 : 'JEON',
+    이런 : 30,
+}

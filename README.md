@@ -1179,3 +1179,57 @@ const 프로미스 = new Promise(resolve,reject){
 })
 
 ```
+
+<br><br>
+
+## async/await 프로미스를 대체할 방법 (참고로 ES8 문법임...)
+- async 키워드
+    - 함수 앞에만 붙일 수 있는 키워드이다.
+    - promise 를 대체해주는 키워드이다. 
+    - 단 promise와 다른점은, 항상 성공만 확인할 수 있다.
+```
+async function 더하기(){
+    console.log("첫번쨰함수요")
+    return 1+1
+}
+
+더하기().then(function(결과){
+    console.log(결과);
+})
+```
+<br><br>
+
+- await 키워드
+    - async 와 함꼐 쓰여진다.
+    - async 함수 안에 사용되어진다. 
+    - promise 가 연산이 다 될때까지 다음 코드를 실행시키지 않고 기다리도록 해주는 키워드. 
+    - then 키워드와 동일한 역할을 한다. 
+    - 대신에 promise 에서 실패로 판정하면 에러가 뜬다. 그러고 그자리에서 함수를 종료시킴.
+    - 그래서 실패시 사용할 키워드로 try 와 catch 가 있다. 
+        - try 안에는 성공했을시 동작할 코드,
+        - catch 안에는 실패했을 시 동작할 코드.
+
+```
+async function 더하기(){
+    const 프로미스 = new Promise(function(resolve,reject){
+        const 어려운연산 = 1 + 1;
+        reject();
+    })
+    
+    프로미스.then(function(){
+        console.log('성공');
+    }) //이거를 갖다가 await 을 써서 짧게 쓸 수 있음
+
+    try {
+        const 결과 = await 프로미스;
+        console.log(결과) // 2
+    } catch {
+        console.log('연산이 실패했습니다.')
+    }
+
+}
+
+```
+<br><br>
+
+**_이것들은 반드시 async 함수 내에서 사용되는것들이다._**
