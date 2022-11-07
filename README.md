@@ -77,6 +77,7 @@
     - 객체내부의 콜백함수에서 this = window{~~~} 가 된다.
     - 객체내부의 콜백말고 함수에서 this = obj 출력
     - 객체내부의 콜백자리에 에로우 펑션을 쓰게 된다면 바로 직전에 사용된 this를 출력한다. 아래의 구조에서 에로우 펑션에 this 를 사용하게 되면, 그 위의 콘솔로그에 있는 this를 뽑아오게 되고 //obj 를 출력하게 된다. 
+    - 객체내부 함수의 콜백함수를 화살표 함수로 쓰게 된다면, 그안에서의 this 는 객체를 가르키게 된다. 
     ```
     let obj = {
         name : "kim",
@@ -86,6 +87,10 @@
             console.log(this) //obj 출력
             obj.gender.forEach(function(item){
                 console.log(this); //window 출력
+            })
+
+            obj.gender.forEach((item) => {
+                console.log(this); //obj 출력
             })
         }
     }
@@ -730,13 +735,28 @@ class 아버지 extends 할아버지 {
 - extends 로 만든 새로운 class에서는 this를 함부로 쓰지 못한다.
 - 그래서 super(); 라는 내장함수를 컨스트럭터 제일 상단에 넣어주어야 한다.
 - 또한 부모 class 의 파라미터를 super 의 인자로 넣어주어야 한다. 
+- extends 에서 상속받는 함수 외에 본인의 함수를 사용하기 위해서는 반드시 return 값이 필요하다.
+- 또는 부모 Class 에 instanceof 라는 키워드를 사용할 수 도 있다. 만약 지금 호출되는 클래스가 아버지라면 함수를 실행하고, 아니라면 false 값을 반환하게 되어 있다. 
 ```
+class 할아버지 {
+    constructor(name){
+        this.lastName = "Kim";
+        this.firstName = name;
+    }
+
+    sayHi(){
+        if(this instanceof 아버지){
+            this.나이++
+        }
+    }
+}
 
 class 아버지 extends 할아버지 {
     constructor(name){
         super(name);
         this.나이 = 50;
     }
+
 }
 ```
 
@@ -830,3 +850,4 @@ let 사람1 = new 사람();
 **_그래서 게터 세터는 왜쓰느냐_**
 - 데이터 출력/수정 함수를 만들어서 쓰는이유는 데이터의 무결성을 위해서이다. (실수를 줄이기 위해서)
 - 관리의 용이성 떄문이다. 굳이 안써도 되긴하다.
+- 리액트/뷰/앵귤러도 이런식으로 모든 데이터를 다룬다. 

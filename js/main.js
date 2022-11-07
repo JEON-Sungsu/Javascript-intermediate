@@ -198,3 +198,73 @@ class 아버지 extends 할아버지 {
 }
 
 new 할아버지();
+
+//클래스 사용과 extends 사용법 연습
+class dogs {
+    constructor(type,color){
+        this.type = type;
+        this.color = color;
+    }
+}
+
+let dog1 = new dogs('말티즈','white');
+let dog2 = new dogs('토이푸들','brown');
+
+class cats extends dogs {
+    constructor(type,color,age){
+        super(type,color);
+        this.age = age
+    }
+
+    //extends 에서 상속받은 함수 말고, 본인의 함수를 사용하기 위해서는 return이 필요하다.
+    nextAge(){
+        return this.age + 1;
+    }
+}
+
+let cat1 = new cats("코숏","white",3);
+
+class Unit{
+    constructor(){
+        this.attack = 5;
+        this.life = 100;
+    }
+
+    get battlePoint(){
+        return this.attack + this.life;
+    }
+
+    set healing(qtt){
+        this.life += qtt;
+    }
+}
+
+let unit1 = new Unit();
+
+unit1.battlePoint;
+unit1.healing = 50;
+
+console.log(unit1)
+
+const data = {
+    odd : [],
+    even: [],
+    setter : function(...a){
+        a.forEach((item) => {
+            if (item % 2 == 0){
+                this.even.push(item);
+            } else {
+                this.odd.push(item);
+            }
+        })
+    },
+    
+    getter : function(a,b){
+        return [...this.odd, ...this.even].sort(function(a,b){
+            return a - b;
+        })
+    }
+}
+
+data.setter(1,2,3,4);
+data.getter(this.odd, this.even);
