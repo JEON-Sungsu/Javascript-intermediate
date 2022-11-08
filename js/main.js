@@ -383,3 +383,17 @@ const testObj = {
     대충 : 'JEON',
     이런 : 30,
 }
+
+let 심볼 = Symbol('자료에대한 설명');
+
+let weight2 = Symbol('비밀스러운 자료')
+let height2 = Symbol('키')
+
+const person = {
+    name : "JEON",
+    [height2] : 177,
+}
+
+person[weight2] = 85;
+
+console.log(person)

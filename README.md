@@ -1233,3 +1233,176 @@ async function 더하기(){
 <br><br>
 
 **_이것들은 반드시 async 함수 내에서 사용되는것들이다._**
+
+<br><br>
+
+## for in , for of 반복문 
+- 반복문은 주로 Array,object에서 자료를 꺼내 쓸 때 사용한다. 
+
+- for in 반복문
+    - 오브젝트 전용 
+    - 오브젝트 안에 값을 전부 하나씩 꺼내서 사용할 때 쓴다.
+    ```
+    const 오브젝트 = {
+        name : 'kim',
+        age : 30,
+    }
+
+    //key는 그냥 작명임 
+    for (let key in 오브젝트){
+        console.log(오브젝트[키이름])
+    }
+
+    ```
+    - for in 반복문 특징
+        - enumerable 한 데이터만 반복해준다. (셀 수 있는 데이터.)
+        - Object.getOwnPropertyDescriptor(오브젝트,'name') 
+            - 오브젝트 데이터는 단순히 눈에보이는것만 저장된게 아니라 숨겨진 정보들도 같이 저장되어 있는데, 위의 겟온프로퍼티디스크립터를 사용하면 원하는 키값의 숨겨진 정보들을 확인할 수 있다. 
+            - 숨겨진 정보는 3가지가 있는데, writable,enumerable,configurable 이다. true or false 로 나옴.
+        - 부모의 prototype 도 반복해준다. (Class를 사용했을 때)
+            - 요건 좀 쓸데없는 내용임.
+            - 그래서 정확히 내가 가진것만 출력해야된다.
+            - hasOwnProperty는 true or false 를 반환하기 떄문에, if 문 안에서 써야된다. 
+            ```
+            for (let key in 오브젝트){
+                    if(오브젝트.hasOwnProperty(key)){
+                        console.log(오브젝트[키이름])
+                    } else {
+
+                    }
+                }
+            ```
+        - Object 자료형에만 쓴다. 
+
+<br><br>
+
+- for of 반복문
+    - Array,문자,arguments,NodeList,Map,Set 등의 신자료들에 사용가능한 반복문
+    ```
+    const arr = [2,3,4,5];
+
+    //작명은 하나하나의 데이터가 된다. 
+    for (let 작명 of arr){
+        console.log(작명);
+    }
+
+    //단순 string 을 넣으면, 하나하나 분리해서 출력해준다. 
+    ```
+
+    - 특징
+        - iterable 전용 
+        ```
+        arr[Symbol.iterator]();
+        ```
+        - [Symbol.iterator](); 를 사용하면 해당 데이터가 이터러블한지 아닌지 알 수 있다.
+        - 이터러블이 뭔지는 알 필요는 없다. 그냥 이런 유형이 맞는지 아닌지만 알 면 된다. 
+
+<br><br>
+
+## Symbol 자료형
+- 별로 쓰이는데도 없고 사용성있는건 아닌데 이런게 있다정도만 알면 된다.
+- 심볼 만드는 방법
+    - 자료에 대한 설명은 그냥 아무말이나 해도 된다.
+    - 심볼을 하나 만들고 obj[심볼이름] = "값입력" 이런식으로 값을 넣어준다.
+    - 또는 객체 안에 키값을 그냥 대괄호로 감싸서 만들어도 된다.
+    - 데이터를 뽑을때는 값이 안나오지만, 그냥 단순 출력할때는 다 보인다.(대신 키값에 심볼만들때 기재해둔 설명이 키값대신에 뜬다)
+```
+let 심볼 = Symbol('자료에대한 설명');
+
+let weight = Symbol('비밀스러운 자료')
+let height = Symbol('키')
+
+const person = {
+    name : "JEON",
+    [height] : 177,
+}
+
+person[weight] = 85;
+
+```
+- 심볼 출력할때 는 
+```
+객체[심볼이름]; 이렇게 쓰면 된다.
+```
+- 사용처 
+    - Object자료형의 비밀스러운 key 값으로 쓸 수 있다.
+    - Symbol로 저장한거는 반복문을 돌려도 출력이 되지 않는다. 
+    - Object 안에 주석을 다는거라고 봐도 무방한...
+    - import 해온 파일/라이브러리를 쓸 때 거기 있던 object에 자료를 추가하고 싶을때
+- Symbol 의 특징
+    1. 심볼에 기재하는 설명이 동잃라다고 해서 같은 심볼이 아니다.
+    2. 전역 변수 같은 전역Symbol 
+        - for 를 붙여주면 된다.
+        ```
+        //전역 심볼 만드는 법
+        const a = Symbol.for('설명');
+        ```
+
+<br><br>
+
+## map,set 자료형
+- Map
+    - object와 비슷한 자료형으로 키:값 형태로 저장한다. 
+    ```
+    const person = new Map(); //맵 자료형 만드는 방법
+
+    person.set('name','klm'); //맵 자료형에 데이터를 넣는 방법.
+
+    ```
+    - 자료간의 연관성을 표현하기 위해서 쓴다. 
+    - 그래서 출력해보면 화살표형태로 나옴 "name" => "kim" 이렇게.
+    - Object 자료는 키값으로 string만 가능하지만, Map은 다 된다.
+    ```
+    person.get('name'); //Map 데이터를 꺼내는 방법
+    person.delete('name') //Map 데이터를 지우는 방법
+    person.size //데이터에 개수를 세는 키워드.
+
+    한번에 자료를 넣을 때는
+
+    const person = new Map([
+        ['name','kim'],
+        ['age',34],
+    ])
+
+    ```
+    - 반복문을 쓸 수 있다. 
+    - 키값들을 뽑아냄
+    ```
+    for (let key of person.keys()){
+        console.log(key);
+    }
+    ```
+
+<br><br>
+
+- Set 
+    - Array와 유사하게 생김.
+    - 일종의 집합? 비슷함
+    - 중복 자료를 허용하지 않는 Array 비슷한녀석이다. 
+    - 중복값이 있으면 알아서 제거해준다. 
+    ```
+    const 출석부 = [1,2,3,4,1];
+
+    const 출석부2 = new Set([1,2,3,4,1]); //Set 자료 만들기
+
+    ```
+    - 출력해보면 오브젝트와 비슷하게 나오긴 함. 
+    - Set 을 다룰때는 어려운 함수를 써야됨.
+    - Set 자료에 사용되는 함수들
+    ```
+    출석부2.add('10'); //자료 추가하기 
+    출석부2.delete('19'); //자료 지우기
+    출석부2.has('있는지확인하고싶은값'); //자료가 있는지 확인 true false
+    출석부2.size //자료 개수
+    ```
+
+    - Array 를 Set 으로 변환, Set을 Array로 변환
+    ```
+    const 출석부 = [1,2,3,4,1];
+    const 출석부2 = new Set([1,2,3,4,1]);
+
+    출석부 = [...출석부2]; //Set을 Array로 변환;
+    ```
+    - Set 도 반복문 가능하다. forEach, for Of 가능
+
+<br><br>
