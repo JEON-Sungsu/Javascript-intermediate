@@ -1406,3 +1406,98 @@ person[weight] = 85;
     - Set 도 반복문 가능하다. forEach, for Of 가능
 
 <br><br>
+
+## 커스텀 HTML 만들기 
+- Web Components 문법
+    - 자브스크립트 문법이 아님
+    - 브라우저 기본 문법임 
+    - 이거를 자바스크립트로 쓸 수 있음. 
+
+    ```
+    <내가 쓸 태그이름짓기 name="성수"></내가 쓸 태그이름짓기>
+
+    class 클래스 extends HTMLElement {
+        connectedCallback(){
+            //내가 쓸 태그 이름을 만들고난 뒤 실행할 코드들
+
+            let label = document.createElement('label');
+            this.appendChild(_label)
+
+            this.innerHTML = `<label>
+                                <input/>
+                            </label>`
+        }
+
+        //속성 변경 감지
+        static get observedAttributes(){
+            return ['name']
+        }
+
+        //속성이 변경 되면 콜백함수를 실행시켜주세요
+        attributeChangedCallback(){
+            console.log(this.getAttribute('name'));
+        }
+    }
+
+    customElements.define('내가 쓸 태그이름짓기',클래스);
+    ```
+    - 커넥트 콜백에서 HTML 만드는 방법은 몇가지가 있음
+        1. 변수에 태그를 담고 어펜드 하기 (태그생성속도가 빠름)
+        2. this.innerHTML 로 태그 넣어주기. (한번에 다 넣을 수 있음)
+
+    - 저런식으로 자주 사용하는 것들을 만들어서 예를들어 내가 <my-custom></my-custom> 이라는 태그 내에 다 집어 넣어 둔다면, 언제나 마이 커스텀만 불러와도 그안에 달려있는 모든게 같이 따라오기때문에 편리하다. 
+    - 일종의 함수랑 비슷하다. 긴 코드를 단어 한줄로 사용할 수 있게 만들어주는것과 비슷함. 
+    - 파라미터문법같은것도 구현 가능함. HTML 태그에 속성값을 넣어서, 그걸 불러와서 변수에 담고 html 출력할떄 변수를 집어넣어주면 됨... 
+    - attribute 가 변경되면 변경을 감지해서 실행해줄수도있음. 
+
+<br><br>
+
+## shadow DOM - HTML을 모듈화 하기 
+- 브라우저 > 개발자 도구 > 설정 > Preferences > Elements > show user agent shadow DOM 체크를 하면, 태그들에 숨겨진 셰도우 돔들을 확인 할 수 있다. 
+- shadow DOM 만드는 방법
+    - 딱히 활용도가 있는 방법은 아님 
+    ```
+    <div id="test"></div>
+
+    document.querySelector('#test').attachShadow({mode : 'open'})
+    document.querySelector('#test').shadowRoot.innerHTML = '<p></p>'
+    ```
+
+- shadow DOM 과 Web Components 를 같이 사용할때 완벽한 모듈화가 가능하다. 
+- shadow DOM 은 이벤트리쓰너도 붙일 수 있다. 
+
+```
+<template id="testTemplate">
+    <label></label>
+    <style>
+        label {
+            color:red;
+        }
+    </style>
+</template>
+
+class 클래스 extends HTMLElement {
+        connectedCallback(){
+            this.attachShadow({mode : 'open'});
+            this.shadowRoot.innerHTML = `<label>
+                                            <input/>
+                                        </label>
+                                        <style>
+                                            label {
+                                                color:red;
+                                            }
+                                        </style>    
+                                    `
+            this.shadowRoot.append(testTemplate.content.cloneNode(true))
+
+            let el = this.shadowRoot.querytSelector('label');
+            el.addEventListner ('click',function(){
+                console.log('이벤트리쓰너 부착');
+            })
+        }
+    }
+```
+- template 태그 - 임시저장 태그? 
+    - this.innerHTML 로 스타일태그부터 모든 태그를 집어넣기 복잡하니깐 template 라는 태그를 하나 만들어서 그안에다가 내가 만들고 싶은 태그들을 다 집어넣어두고, append 해주면 된다. 
+
+- 근데 이걸 해주는 라이브러리도 많아서 직접 만드는 경우는 거의 없다. 
